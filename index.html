@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha Dark Souls - Cloud Sync Fixo</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="main.js">
+</head>
+<body>
+
+<div class="system-bar">
+    <label style="margin-bottom: 0;">PLAYER:</label>
+    <select id="playerSelect" onchange="loadPlayerData()">
+        <option value="">Selecione...</option>
+        <option value="Safira">Safira</option>
+        <option value="Felipe">Felipe</option>
+        <option value="Laura">Laura</option>
+        <option value="Davi">Davi</option>
+        <option value="Barbieri">Barbieri</option>
+        <option value="Renan">Renan</option>
+        <option value="Nicolas">Nicolas</option>
+        <option value="Mestre">Mestre</option>
+    </select>
+    <button class="btn-system" onclick="saveToSupabase()">Salvar na Nuvem</button>
+    <button class="btn-system" onclick="window.print()">Gerar PDF</button>
+    <span id="sync-status">Pronto</span>
+</div>
+
+<div class="container">
+    <div class="header">
+        <div><label>Nome do Personagem</label><input type="text" id="char_nome" class="f-field" style="width: 100%;"></div>
+        <div><label>Classe</label><input type="text" id="char_classe" class="f-field" style="width: 100%;"></div>
+        <div><label>Almas</label><input type="text" id="char_almas" class="f-field" style="width: 100%;"></div>
+    </div>
+
+    <div class="main-stats">
+        <div class="stat-box" style="border-top: 3px solid var(--ds-red);">
+            <label>HP ATUAL / TOTAL</label>
+            <div class="counter-container">
+                <button class="btn-counter" onclick="adj('hp_at', -1)">-</button>
+                <input type="number" id="hp_at" value="0" class="f-field" style="width: 40px; text-align: center; border:none; font-size: 1.2rem;">
+                <button class="btn-counter" onclick="adj('hp_at', 1)">+</button>
+                <span style="color: var(--ds-border)">/</span>
+                <input type="text" id="hp_max" class="f-field" placeholder="Max" style="width: 40px; text-align: center; border:none;">
+            </div>
+        </div>
+
+        <div class="stat-box" style="border-top: 3px solid var(--ds-blue);">
+            <label>MANA ATUAL / TOTAL</label>
+            <div class="counter-container">
+                <button class="btn-counter" onclick="adj('mana_at', -1)">-</button>
+                <input type="number" id="mana_at" value="0" class="f-field" style="width: 40px; text-align: center; border:none; font-size: 1.2rem;">
+                <button class="btn-counter" onclick="adj('mana_at', 1)">+</button>
+                <span style="color: var(--ds-border)">/</span>
+                <input type="text" id="mana_max" class="f-field" placeholder="Max" style="width: 40px; text-align: center; border:none;">
+            </div>
+        </div>
+
+        <div class="stat-box"><label>Humanidade</label><input type="text" id="char_hum" class="f-field" style="width: 100%; text-align: center;"></div>
+        <div class="stat-box"><label>Defesa</label><input type="text" id="char_def" class="f-field" style="width: 100%; text-align: center;"></div>
+    </div>
+
+    <div class="grid-2-col">
+        <div>
+            <h3 style="border-left: 4px solid var(--ds-gold); padding-left: 10px; margin-top: 0;">ATRIBUTOS</h3>
+            <div class="attr-row"><label>Vitalidade</label><input type="number" id="v_vit" class="f-field"></div>
+            <div class="attr-row"><label>Conhecimento</label><input type="number" id="v_con" class="f-field"></div>
+            <div class="attr-row"><label>Fortitude</label><input type="number" id="v_fort" class="f-field"></div>
+            <div class="attr-row"><label>Força</label><input type="number" id="v_for" class="f-field"></div>
+            <div class="attr-row"><label>Destreza</label><input type="number" id="v_des" class="f-field"></div>
+            <div class="attr-row"><label>Resistência</label><input type="number" id="v_res" class="f-field"></div>
+            <div class="attr-row"><label>Inteligência</label><input type="number" id="v_int" class="f-field"></div>
+            <div class="attr-row"><label>Fé</label><input type="number" id="v_fe" class="f-field"></div>
+            
+            <h3 style="margin-top: 25px;">ITENS</h3>
+            <textarea id="t_itens" class="f-field" style="height: 380px;" placeholder="Inventário..."></textarea>
+        </div>
+
+        <div>
+            <h3 style="border-left: 4px solid var(--ds-gold); padding-left: 10px; margin-top: 0;">ATAQUES</h3>
+            <textarea id="t_ataques" class="f-field" style="height: 250px;" placeholder="Armas e danos..."></textarea>
+
+            <h3 style="margin-top: 25px; border-left: 4px solid var(--ds-gold); padding-left: 10px;">HABILIDADES / MAGIAS</h3>
+            <textarea id="t_magias" class="f-field" style="height: 325px;" placeholder="Poderes e custos..."></textarea>
+            
+            <div style="margin-top: 20px;">
+                <label>Notas de Status / Lore</label>
+                <input type="text" id="t_notas" class="f-field" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>
